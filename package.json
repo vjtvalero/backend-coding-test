@@ -1,27 +1,35 @@
 {
-  "name": "backend-coding-test",
-  "version": "1.0.0",
-  "description": "A coding assessment for Xendit backend interviews",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "test": "mocha tests",
-    "start": "node index.js"
-  },
-  "keywords": [
-    "Xendit"
-  ],
-  "author": "Bo",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.16.4",
-    "sqlite3": "^4.0.6"
-  },
-  "devDependencies": {
-    "mocha": "^6.1.4",
-    "supertest": "^4.0.2"
-  }
+    "name": "backend-coding-test",
+    "version": "1.0.0",
+    "description": "A coding assessment for Xendit backend interviews",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "mocha tests",
+        "start": "node index.js",
+        "coverage": "npx nyc@14 mocha"
+    },
+    "keywords": [
+        "Xendit"
+    ],
+    "author": "Bo",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.16.4",
+        "sqlite3": "^4.0.6"
+    },
+    "devDependencies": {
+        "eslint": "^7.10.0",
+        "eslint-config-standard": "^14.1.1",
+        "eslint-plugin-import": "^2.22.1",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.1",
+        "mocha": "^6.1.4",
+        "pre-push": "^0.1.1",
+        "supertest": "^4.0.2"
+    }
 }
