@@ -9,7 +9,8 @@
     "scripts": {
         "test": "mocha tests",
         "start": "node index.js",
-        "coverage": "npx nyc@14 mocha"
+        "coverage": "npx nyc@14 mocha",
+        "dev": "nodemon index.js"
     },
     "keywords": [
         "Xendit"
@@ -29,6 +30,7 @@
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-standard": "^4.0.1",
         "mocha": "^6.1.4",
+        "nodemon": "^2.0.4",
         "pre-push": "^0.1.1",
         "supertest": "^4.0.2"
     }
