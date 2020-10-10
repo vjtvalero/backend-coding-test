@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 
 const validate = require('./validate')
+const paginate = require('./paginate')
 
 module.exports = (db) => {
     app.get('/health', (req, res) => res.send('Healthy'))
@@ -19,8 +20,12 @@ module.exports = (db) => {
         const riderName = req.body.rider_name
         const driverName = req.body.driver_name
         const driverVehicle = req.body.driver_vehicle
-
         const validationRules = [
+            {
+                condition: (!startLatitude || !startLongitude || !endLatitude || !endLongitude),
+                field: 'coordinates',
+                message: 'Please complete the coordinates'
+            },
             {
                 condition: (startLatitude < -90 || startLatitude > 90 || startLongitude < -180 || startLongitude > 180),
                 field: 'lat',
@@ -33,17 +38,17 @@ module.exports = (db) => {
             },
             {
                 condition: (typeof riderName !== 'string' || riderName.length < 1),
-                field: 'rider',
+                field: 'rider_name',
                 message: 'Rider name must be a non empty string'
             },
             {
                 condition: (typeof driverName !== 'string' || driverName.length < 1),
-                field: 'driver',
+                field: 'driver_name',
                 message: 'Driver name must be a non empty string'
             },
             {
                 condition: (typeof driverVehicle !== 'string' || driverVehicle.length < 1),
-                field: 'vehicle',
+                field: 'driver_vehicle',
                 message: 'Vehicle name must be a non empty string'
             }
         ]
@@ -55,7 +60,7 @@ module.exports = (db) => {
 
         var values = [req.body.start_lat, req.body.start_long, req.body.end_lat, req.body.end_long, req.body.rider_name, req.body.driver_name, req.body.driver_vehicle]
 
-        const result = db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
+        db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
             if (err) {
                 return res.send({
                     error_code: 'SERVER_ERROR',
@@ -77,7 +82,8 @@ module.exports = (db) => {
     })
 
     app.get('/rides', (req, res) => {
-        db.all('SELECT * FROM Rides', function (err, rows) {
+        const pagination = paginate(req.query)
+        db.all(`SELECT * FROM Rides ${pagination.pageClause}`, function (err, rows) {
             if (err) {
                 return res.send({
                     error_code: 'SERVER_ERROR',
