@@ -1,3 +1,9 @@
+/**
+ * Checks if conditions given are satisfied
+ *
+ * @param array{condition: String, field: String, message: String} rules
+ * @returns {isValid: Boolean, response: {error_code: String, message: Array}}
+ */
 const validate = (rules) => {
     const message = {}
     let isValid = true

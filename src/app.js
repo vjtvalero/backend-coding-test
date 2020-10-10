@@ -28,7 +28,7 @@ module.exports = (db) => {
             },
             {
                 condition: (endLatitude < -90 || endLatitude > 90 || endLongitude < -180 || endLongitude > 180),
-                field: 'long', 
+                field: 'long',
                 message: 'End latitude and longitude must be between -90 - 90 and -180 to 180 degrees respectively'
             },
             {
