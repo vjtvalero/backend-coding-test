@@ -62,7 +62,7 @@ module.exports = (db) => {
             var values = [req.body.start_lat, req.body.start_long, req.body.end_lat, req.body.end_long, req.body.rider_name, req.body.driver_name, req.body.driver_vehicle]
 
             await db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values)
-            const rows = await db.all('SELECT * FROM Rides ORDER BY created DESC LIMIT 1')
+            const rows = await db.all('SELECT * FROM Rides ORDER BY rideID DESC LIMIT 1')
             res.send(rows)
 
             // TODO: figure out getting the `lastID` after calling async/await style of db.run()
@@ -78,7 +78,7 @@ module.exports = (db) => {
     app.get('/rides', async (req, res) => {
         try {
             const pagination = paginate(req.query)
-            const rows = await db.all(`SELECT * FROM Rides ${pagination.pageClause}`)
+            const rows = await db.all(`SELECT * FROM Rides ${pagination.pageClause}`, pagination.args)
             if (rows.length === 0) {
                 return res.send({
                     error_code: 'RIDES_NOT_FOUND_ERROR',
